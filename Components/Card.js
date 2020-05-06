@@ -1,6 +1,5 @@
 class Card extends BaseComponent {
 
-
     constructor(name, url) {
         super();
         this.name = name;
@@ -19,12 +18,7 @@ class Card extends BaseComponent {
         }
     }
 
-    create() {
-
-    }
-
     get template() {
-
         return `<div class="place-card">
                     <div class="place-card__image" style="background-image: url('${this.url}');">
                         <button class="place-card__delete-icon"></button>

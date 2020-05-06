@@ -12,6 +12,7 @@
     <header class="header root__section">
         <img src="./images/logo.svg" alt="mesto logo" class="logo">
     </header>
+
     <div class="profile root__section">
         <div class="user-info">
             <div class="user-info__photo"></div>
@@ -23,24 +24,11 @@
             <button class="button user-info__button">+</button>
         </div>
     </div>
-    <div class="places-list root__section">
 
+    <div class="places-list root__section"></div>
 
-    </div>
-    <div class="popup" id="add-card">
-        <div class="popup__content">
-            <img src="./images/close.svg" alt="" class="popup__close">
-            <h3 class="popup__title">Новое место</h3>
-            <form class="popup__form" name="new">
-                <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Название">
-                <div class="popup__input-error" aria-live="polite" id="error-card-name"></div>
-                <input type="text" name="link" class="popup__input popup__input_type_link-url"
-                       placeholder="Ссылка на картинку">
-                <div class="popup__input-error" aria-live="polite" id="error-card-link"></div>
-                <button class="button popup__button">+</button>
-            </form>
-        </div>
-    </div>
+    <div class="popup" id="add-card"></div>
+
     <div class="popup" id="profile">
         <div class="popup__content">
             <img src="./images/close.svg" alt="" class="popup__close">
@@ -54,6 +42,7 @@
             </form>
         </div>
     </div>
+
     <div class="popup" id="big-size-image">
         <div class="popup__content-image">
             <img src="./images/close.svg" alt="" class="popup__close">
@@ -62,9 +51,13 @@
     </div>
 </div>
 <script src="js/helpers.js"></script>
+<script src="js/validators.js"></script>
 <script src="Components/BaseComponent.js"></script>
 <script src="Components/Card.js"></script>
 <script src="Components/CardList.js"></script>
+<script src="Components/popup-contents/ImagePopup.js"></script>
+<script src="Components/popup-contents/InnerPopup.js"></script>
+<script src="Components/popup-contents/contents/PopupContent.js"></script>
 <script src="Components/Popup.js"></script>
 <script src="js/script.js"></script>
 </body>

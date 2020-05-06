@@ -7,7 +7,7 @@ function $event(selector){
     z.e = selector;
     return z;
 }
-
+// custom addEventListener
 $event.prototype.on = function(event, callback, capture){
     return this.e.addEventListener(event, callback, capture);
 };

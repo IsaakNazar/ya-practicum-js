@@ -1,8 +1,6 @@
-
 window.onload = () => {
 
-    const cards = $('.places-list'),
-        userInfoName = $('.user-info__name'),
+    const userInfoName = $('.user-info__name'),
         userInfoJob = $('.user-info__job'),
         formPopupAddCard = $("#add-card"),
         formPopupProfile = $("#profile"),
@@ -51,39 +49,44 @@ window.onload = () => {
         }
     ];
 
+    const cardList = new CardList(initialCards);
+    const addCardPopup = new PopupContent();
 
-    function addOneCard(name, url) {
-        // forming Card component
-        const cardComponent = new Card(name, url);
+    // function addOneCard(name, url) {
+    //     // forming Card component
+    //     const cardComponent = new Card(name, url);
+    //
+    //     // add the formed card to the page
+    //     cards.appendChild(cardComponent.render());
+    // }
 
-        // add the formed card to the page
-        cards.appendChild(cardComponent.render());
-    }
+    // function loadCards() {
+    //     initialCards.forEach(function (item) {
+    //         addOneCard(item.name, item.link);
+    //     });
+    // }
 
+    //коллбэк для открытия и закрытия формы добавления карточки
+    // function toggleFormAdd() {
+    //     validateAddCardForm();
+    //     formPopupAddCard.classList.toggle("popup_is-opened");
+    // }
 
-    function loadCards() {
-        initialCards.forEach(function (item) {
-            addOneCard(item.name, item.link);
-        });
-    }
-
-    function toggleFormAdd() {//коллбэк для открытия и закрытия формы добавления карточки
-        validateAddCardForm();
-        formPopupAddCard.classList.toggle("popup_is-opened");
-    }
-
-    function openFormProfile() {//коллбэк для открытия формы профиля
+    //коллбэк для открытия формы PROFILE
+    function openFormProfile() {
         document.forms.profile.elements.name.value = userInfoName.textContent;
         document.forms.profile.elements.job.value = userInfoJob.textContent;
         formPopupProfile.classList.toggle("popup_is-opened");
         validateProfileForm();
     }
 
-    function closeFormProfile() {//коллбэк для закрытия формы профиля
+    //коллбэк для закрытия формы PROFILE
+    function closeFormProfile() {
         formPopupProfile.classList.toggle("popup_is-opened");
     }
 
-    function submitFormProfile(event) {//коллбэк для сабмита формы профиля
+    //коллбэк для сабмита формы PROFILE
+    function submitFormProfile(event) {
         event.preventDefault();
         if (!$("#profile .popup__button").classList.contains("popup__button_enable")) {//кнопка "выключена", т.е. данные в форме невалидные
             return;
@@ -102,7 +105,7 @@ window.onload = () => {
         if (!$("#add-card .popup__button").classList.contains("popup__button_enable")) {//кнопка "выключена", т.е. данные в форме невалидные
             return;
         }
-        addOneCard(form.elements.name.value, form.elements.link.value);
+        cardList.addCard(form.elements.name.value, form.elements.link.value);
         toggleFormAdd();
         form.reset();
     }
@@ -131,16 +134,16 @@ window.onload = () => {
         // });
 
         // нажатие на кнопку +
-        const button = $(".user-info__button");
-        // button.addEventListener("click", toggleFormAdd);
-        $event(button).on('click', toggleFormAdd);
+        $event($(".user-info__button")).on("click", addCardPopup.open.bind(addCardPopup));
 
-        // закрытие формы добавления нового элемента
-        const crossButton = $("#add-card .popup__close");
-        crossButton.addEventListener("click", toggleFormAdd);
+        // $('#add-card').addEventListener('click', function (event) {
+        //     if (event.target.classList.contains("popup__close")) {
+        //         new Popup().close(event);
+        //     }
+        // });
 
         // сабмит формы добавления карточки.
-        document.forms.new.addEventListener("submit", submitFormAdd);
+        // document.forms.new.addEventListener("submit", submitFormAdd);
 
 
         // нажатие на кнопку Edit
@@ -163,56 +166,22 @@ window.onload = () => {
         document.forms.profile.elements.job.addEventListener("input", validateProfileForm);
 
         //валидация добавления новой карточки
-        document.forms.new.elements.name.addEventListener("input", validateAddCardForm);
-        document.forms.new.elements.link.addEventListener("input", validateAddCardForm);
+        // document.forms.new.elements.name.addEventListener("input", validateAddCardForm);
+        // document.forms.new.elements.link.addEventListener("input", validateAddCardForm);
     }
 
-// 0 - пустая строка
-// 1 - ок
-// 2 - слишком длинная или короткая
-
-    function validateLenghtStr(str, min, max) {
-        if (str.length === 0)
-            return 0;
-        if (str.length >= min && str.length <= max)
-            return 1;
-        return 2;
-    }
 
     function validateProfileForm() {
         let isOk = true;
 
         const formProfileName = document.forms.profile.elements.name;
         const formErrorProfileName = $("#error-profile-name");
-        switch (validateLenghtStr(formProfileName.value, 2, 30)) {
-            case 0:
-                formErrorProfileName.textContent = "Это обязательное поле";
-                isOk = false;
-                break;
-            case 1:
-                formErrorProfileName.textContent = "";
-                break;
-            case 2:
-                formErrorProfileName.textContent = "Должно быть от 2 до 30 символов";
-                isOk = false;
-                break;
-        }
+        validateForm(formErrorProfileName, formProfileName, isOk);
+
 
         const formProfileJob = document.forms.profile.elements.job;
         const formErrorProfileJob = $("#error-profile-job");
-        switch (validateLenghtStr(formProfileJob.value, 2, 30)) {
-            case 0:
-                formErrorProfileJob.textContent = "Это обязательное поле";
-                isOk = false;
-                break;
-            case 1:
-                formErrorProfileJob.textContent = "";
-                break;
-            case 2:
-                formErrorProfileJob.textContent = "Должно быть от 2 до 30 символов";
-                isOk = false;
-                break;
-        }
+        validateForm(formErrorProfileJob, formProfileJob, isOk);
 
         if (isOk) {
             $("#profile .popup__button").classList.add("popup__button_enable");
@@ -223,22 +192,9 @@ window.onload = () => {
 
     function validateAddCardForm() {
         let isOk = true;
-
         const formNewName = document.forms.new.elements.name;
         const formErrorCardName = $("#error-card-name");
-        switch (validateLenghtStr(formNewName.value, 2, 30)) {
-            case 0:
-                formErrorCardName.textContent = "Это обязательное поле";
-                isOk = false;
-                break;
-            case 1:
-                formErrorCardName.textContent = "";
-                break;
-            case 2:
-                formErrorCardName.textContent = "Должно быть от 2 до 30 символов";
-                isOk = false;
-                break;
-        }
+        validateForm(formErrorCardName, formNewName, isOk);
 
         const formNewLink = document.forms.new.elements.link;
         const formErrorCardLink = $("#error-card-link");
@@ -256,18 +212,7 @@ window.onload = () => {
         }
     }
 
-
-    function validURL(str) {
-        var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-        return !!pattern.test(str);
-    }
-
-
-    loadCards();
+    // loadCards();
+    cardList.render();
     initCallback();
 };
