@@ -2,22 +2,16 @@ class ProfilePopup extends BaseComponent {
     constructor() {
         super();
         this.content = `<form class="popup__form" name="profile">
-                            <input type="text" 
-                                    name="name" 
-                                    class="popup__input" 
-                                    placeholder="Name">
-                            <div class="popup__input-error" 
-                                aria-live="polite" 
-                                id="error-profile-name">                          
-                            </div>
-                            <input type="text" 
-                                    name="job" 
-                                    class="popup__input" 
-                                    placeholder="About yourself">
-                            <div class="popup__input-error" 
-                                    aria-live="polite" 
-                                    id="error-profile-job"> 
-                            </div>
+                            <input-text placeHolder="Name" 
+                                        nameValue="name" 
+                                        uid="error-profile-name"
+                                        errorMessage="">
+                            </input-text>
+                            <input-text placeHolder="About yourself" 
+                                        nameValue="job" 
+                                        uid="error-profile-job"
+                                        errorMessage="">
+                            </input-text>
                             <button class="button popup__button popup__button_text18">Save</button>
                         </form>`;
         this.popup = new Popup();
