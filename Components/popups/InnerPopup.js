@@ -3,7 +3,6 @@ class InnerPopup extends BaseComponent {
         super();
         this.content = content;
         this.title = title;
-
     }
 
     get template() {
@@ -16,15 +15,4 @@ class InnerPopup extends BaseComponent {
                 </div>`;
     }
 
-    // close(event) {
-    //     const popup = $("#add-card");
-    //     if (event.target.classList.contains("popup__close")) {
-    //         popup.removeChild(event.path[1]);
-    //         popup.classList.toggle("popup_is-opened");
-    //     }
-    // }
-    //
-    // setEventListener() {
-    //     $event($("#add-card")).on('click', this.close);
-    // }
 }

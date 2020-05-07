@@ -15,4 +15,5 @@ class CardList extends BaseComponent {
     get template() {
         return this.cards.forEach(card => this.addCard(card.name, card.link))
     }
+
 }

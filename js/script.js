@@ -1,10 +1,5 @@
 window.onload = () => {
 
-    const userInfoName = $('.user-info__name'),
-        userInfoJob = $('.user-info__job'),
-        formPopupAddCard = $("#add-card"),
-        formPopupProfile = $("#profile"),
-        bigSizeImage = $("#big-size-image");
 
     const initialCards = [
         {
@@ -48,70 +43,21 @@ window.onload = () => {
             link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/vladivostok.jpg'
         }
     ];
-
+    const bigSizeImage = $("#big-size-image");
     const cardList = new CardList(initialCards);
-    const addCardPopup = new PopupContent();
-
-    // function addOneCard(name, url) {
-    //     // forming Card component
-    //     const cardComponent = new Card(name, url);
-    //
-    //     // add the formed card to the page
-    //     cards.appendChild(cardComponent.render());
-    // }
-
-    // function loadCards() {
-    //     initialCards.forEach(function (item) {
-    //         addOneCard(item.name, item.link);
-    //     });
-    // }
-
-    //коллбэк для открытия и закрытия формы добавления карточки
-    // function toggleFormAdd() {
-    //     validateAddCardForm();
-    //     formPopupAddCard.classList.toggle("popup_is-opened");
-    // }
-
-    //коллбэк для открытия формы PROFILE
-    function openFormProfile() {
-        document.forms.profile.elements.name.value = userInfoName.textContent;
-        document.forms.profile.elements.job.value = userInfoJob.textContent;
-        formPopupProfile.classList.toggle("popup_is-opened");
-        validateProfileForm();
-    }
-
-    //коллбэк для закрытия формы PROFILE
-    function closeFormProfile() {
-        formPopupProfile.classList.toggle("popup_is-opened");
-    }
-
-    //коллбэк для сабмита формы PROFILE
-    function submitFormProfile(event) {
-        event.preventDefault();
-        if (!$("#profile .popup__button").classList.contains("popup__button_enable")) {//кнопка "выключена", т.е. данные в форме невалидные
-            return;
-        }
-
-        userInfoName.textContent = document.forms.profile.elements.name.value;
-        userInfoJob.textContent = document.forms.profile.elements.job.value;
-        formPopupProfile.classList.toggle("popup_is-opened");
-    }
-
-
-    function submitFormAdd(event) {
-        const form = event.currentTarget;
-        event.preventDefault();
-
-        if (!$("#add-card .popup__button").classList.contains("popup__button_enable")) {//кнопка "выключена", т.е. данные в форме невалидные
-            return;
-        }
-        cardList.addCard(form.elements.name.value, form.elements.link.value);
-        toggleFormAdd();
-        form.reset();
-    }
+    const addCardPopup = new AddCardPopup();
+    const profilePopup = new ProfilePopup();
 
     function toggleBigSizeImage() {//показать/спрятать попап с большой картинкой
         bigSizeImage.classList.toggle("popup_is-opened");
+    }
+
+    function openFullSizeImage(event) {
+        const imagePopup = new ImageHelper();
+        if (event.target.classList.contains("place-card__image")) {
+            imagePopup.open();
+            $('.popup__image').src = event.target.style.backgroundImage.slice(5, -2);
+        }
     }
 
 
@@ -133,86 +79,22 @@ window.onload = () => {
         //     }
         // });
 
-        // нажатие на кнопку +
+        // click  +  to open AddCardPopup
         $event($(".user-info__button")).on("click", addCardPopup.open.bind(addCardPopup));
 
-        // $('#add-card').addEventListener('click', function (event) {
-        //     if (event.target.classList.contains("popup__close")) {
-        //         new Popup().close(event);
-        //     }
-        // });
+        // press Edit to open Profile Popup
+        $event($(".user-info__edit")).on("click", profilePopup.open.bind(profilePopup));
 
-        // сабмит формы добавления карточки.
-        // document.forms.new.addEventListener("submit", submitFormAdd);
-
-
-        // нажатие на кнопку Edit
-        const buttonEdit = $(".button.user-info__edit");
-        buttonEdit.addEventListener("click", openFormProfile);
-
-        // закрытие формы редактирования профиля
-        const crossButtonEdit = $("#profile .popup__close");
-        crossButtonEdit.addEventListener("click", closeFormProfile);
-
-        // сабмит формы редактирования профиля
-        document.forms.profile.addEventListener("submit", submitFormProfile);
+        // click image to open full size
+        $event($(".places-list")).on("click", openFullSizeImage)
 
         // закрытие закрытия попапа с большой картинкой
-        const crossButtonBigImage = $("#big-size-image .popup__close");
-        crossButtonBigImage.addEventListener("click", toggleBigSizeImage);
+        // const crossButtonBigImage = $("#big-size-image .popup__close");
+        // crossButtonBigImage.addEventListener("click", toggleBigSizeImage);
 
-        //валидация редактирования профиля
-        document.forms.profile.elements.name.addEventListener("input", validateProfileForm);
-        document.forms.profile.elements.job.addEventListener("input", validateProfileForm);
 
-        //валидация добавления новой карточки
-        // document.forms.new.elements.name.addEventListener("input", validateAddCardForm);
-        // document.forms.new.elements.link.addEventListener("input", validateAddCardForm);
     }
 
-
-    function validateProfileForm() {
-        let isOk = true;
-
-        const formProfileName = document.forms.profile.elements.name;
-        const formErrorProfileName = $("#error-profile-name");
-        validateForm(formErrorProfileName, formProfileName, isOk);
-
-
-        const formProfileJob = document.forms.profile.elements.job;
-        const formErrorProfileJob = $("#error-profile-job");
-        validateForm(formErrorProfileJob, formProfileJob, isOk);
-
-        if (isOk) {
-            $("#profile .popup__button").classList.add("popup__button_enable");
-        } else {
-            $("#profile .popup__button").classList.remove("popup__button_enable");
-        }
-    }
-
-    function validateAddCardForm() {
-        let isOk = true;
-        const formNewName = document.forms.new.elements.name;
-        const formErrorCardName = $("#error-card-name");
-        validateForm(formErrorCardName, formNewName, isOk);
-
-        const formNewLink = document.forms.new.elements.link;
-        const formErrorCardLink = $("#error-card-link");
-        if (validURL(formNewLink.value)) {
-            formErrorCardLink.textContent = "";
-        } else {
-            formErrorCardLink.textContent = "Здесь должна быть ссылка";
-            isOk = false;
-        }
-
-        if (isOk) {
-            $("#add-card .popup__button").classList.add("popup__button_enable");
-        } else {
-            $("#add-card .popup__button").classList.remove("popup__button_enable");
-        }
-    }
-
-    // loadCards();
     cardList.render();
     initCallback();
 };

@@ -1,4 +1,4 @@
-class PopupContent extends BaseComponent {
+class AddCardPopup extends BaseComponent {
 
     constructor() {
         super();
@@ -6,18 +6,18 @@ class PopupContent extends BaseComponent {
                             <input type="text" 
                                    name="name" 
                                    class="popup__input popup__input_type_name" 
-                                   placeholder="Название">
+                                   placeholder="Name">
                             <div class="popup__input-error" 
                                  aria-live="polite" 
-                                 id="error-card-name">Это обязательное поле
+                                 id="error-card-name">Required field
                             </div>
                             <input type="text" 
                                    name="link" 
                                    class="popup__input popup__input_type_link-url" 
-                                   placeholder="Ссылка на картинку">
+                                   placeholder="Image link">
                             <div class="popup__input-error" 
                                  aria-live="polite" 
-                                 id="error-card-link">Здесь должна быть ссылка
+                                 id="error-card-link">Here should be a link
                             </div>
                             <button class="button popup__button">+</button>
                         </form>`;
@@ -25,38 +25,42 @@ class PopupContent extends BaseComponent {
     }
 
     get template() {
-        return new InnerPopup(this.content, "Новое место").render();
+        return new InnerPopup(this.content, "New place").render();
     }
 
     open() {
         this.popup.open(this.template);
-        // document.forms.new.addEventListener("submit", this.submitFormAdd);
-        // document.forms.new.elements.name.addEventListener("input", this.validateAddCardForm);
-        // document.forms.new.elements.link.addEventListener("input", this.validateAddCardForm);
-
+        this.attachEvents()
     }
 
+    attachEvents() {
+        $event(document.forms.new).on("submit", this.submitFormAdd);
+        $event(document.forms.new.elements.name).on("input", this.validateAddCardForm);
+        $event(document.forms.new.elements.link).on("input", this.validateAddCardForm);
+    }
 
     submitFormAdd(event) {
         const form = event.currentTarget;
         event.preventDefault();
 
-        if (!$("#add-card .popup__button").classList.contains("popup__button_enable")) {//кнопка "выключена", т.е. данные в форме невалидные
+        if (!$("#modal-window .popup__button").classList.contains("popup__button_enable")) {//кнопка "выключена", т.е. данные в форме невалидные
             return;
         }
         new CardList().addCard(form.elements.name.value, form.elements.link.value);
-        // toggleFormAdd();
-        console.log(this.popup);
-        this.popup.close()
-        // this.popup.close(event)
-        // form.reset();
+
+        // close popup when the submit button is triggered
+        closePopup(event, $("#modal-window"), "popup_is-opened")
+
+
+        form.reset();
     }
 
     validateAddCardForm() {
-        let isOk = true;
+        let isValid = true;
+
         const formNewName = document.forms.new.elements.name;
         const formErrorCardName = $("#error-card-name");
-        validateForm(formErrorCardName, formNewName, isOk);
+        isValid = validateForm(formErrorCardName, formNewName, isValid);
 
         const formNewLink = document.forms.new.elements.link;
         const formErrorCardLink = $("#error-card-link");
@@ -64,14 +68,10 @@ class PopupContent extends BaseComponent {
             formErrorCardLink.textContent = "";
         } else {
             formErrorCardLink.textContent = "Здесь должна быть ссылка";
-            isOk = false;
+            isValid = false;
         }
 
-        if (isOk) {
-            $("#add-card .popup__button").classList.add("popup__button_enable");
-        } else {
-            $("#add-card .popup__button").classList.remove("popup__button_enable");
-        }
+        enableButton(isValid, $(".popup .popup__button"), "popup__button_enable");
     }
 
 }

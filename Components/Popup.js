@@ -1,24 +1,19 @@
-class Popup extends BaseComponent {
-    constructor() {
-        super();
-        this.addCard = $("#add-card");
-    }
-
-    // get template() {
-    //     return `<div class="popup" id="add-card"></div>`;
-    // }
+class Popup {
 
     open(modal) {
-        this.addCard.classList.toggle("popup_is-opened");
-        this.addCard.appendChild(modal);
+        const popup = $(".popup");
+        popup.classList.toggle("popup_is-opened");
+        popup.appendChild(modal);
+        $event(popup).on('click', this.close);
     }
 
     close(event) {
-        console.log(event);
-    }
-
-    setEventListener() {
-        $event($("#add-card")).on('click', this.close);
+        const popup = $(".popup");
+        // check if cross icon is pressed
+        if (event.target.classList.contains("popup__close")) {
+            popup.removeChild(event.path[1]);
+            popup.classList.toggle("popup_is-opened");
+        }
     }
 
 }

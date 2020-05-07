@@ -25,8 +25,7 @@ class Card extends BaseComponent {
                     </div>
                     <div class="place-card__description">
                         <h3 class="place-card__name">${this.name}</h3>
-                        <button 
-                            class="place-card__like-icon"></button>
+                        <button class="place-card__like-icon"></button>
                     </div>
                 </div>`;
     }
