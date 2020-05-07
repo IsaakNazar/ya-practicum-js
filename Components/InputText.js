@@ -1,4 +1,8 @@
+
+// Custom input form
 class InputText extends HTMLElement {
+
+    // name attribute of input
     get nameValue() {
         return this.getAttribute('nameValue');
     }
@@ -7,6 +11,8 @@ class InputText extends HTMLElement {
         this.setAttribute('nameValue', value);
     }
 
+    // input has default class='popup__input', you can pass additional classes
+    // via this attribute
     get className() {
         return this.getAttribute('className');
     }
@@ -15,6 +21,7 @@ class InputText extends HTMLElement {
         this.setAttribute('className', value);
     }
 
+    // input placeholder
     get placeHolder() {
         return this.getAttribute('placeHolder');
     }
@@ -23,6 +30,7 @@ class InputText extends HTMLElement {
         this.setAttribute('placeHolder', value);
     }
 
+    // id of error message
     get uid() {
         return this.getAttribute('uid');
     }
@@ -31,6 +39,7 @@ class InputText extends HTMLElement {
         this.setAttribute('uid', value);
     }
 
+    // error message of the input
     get errorMessage() {
         return this.getAttribute('errorMessage');
     }
@@ -39,16 +48,27 @@ class InputText extends HTMLElement {
         this.setAttribute('errorMessage', value);
     }
 
+
+    // the type of input will be the value of this attribute, if it is passed,
+    // otherwise type='text'
+    get inputType() {
+        return this.getAttribute('inputType');
+    }
+
+    set inputType(value) {
+        this.setAttribute('inputType', value);
+    }
+
     constructor() {
         super();
-        let input = document.createElement('input');
-        input.type = 'text';
+        const input = document.createElement('input');
+        input.type = this.inputType || 'text';
         input.className = `popup__input ${this.className}`;
         input.name = this.nameValue;
         input.placeholder = this.placeHolder;
         this.appendChild(input);
 
-        let errorMsg = document.createElement('div');
+        const errorMsg = document.createElement('div');
         errorMsg.className = 'popup__input-error';
         errorMsg.id = this.uid;
         errorMsg.setAttribute('aria-live', 'polite');
@@ -57,4 +77,5 @@ class InputText extends HTMLElement {
     }
 }
 
+// The element is called input-text, its class object is InputText
 window.customElements.define('input-text', InputText);

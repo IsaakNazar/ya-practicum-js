@@ -1,3 +1,4 @@
+// checks a given form, based on value length
 function validateForm(errorMsg, elementValue, isValid) {
     switch (validateStrLength(elementValue.value, 2, 30)) {
         case 0:

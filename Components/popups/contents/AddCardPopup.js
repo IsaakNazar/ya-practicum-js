@@ -47,7 +47,6 @@ class AddCardPopup extends BaseComponent {
         // close popup when the submit button is triggered
         closePopup(event, $("#modal-window"), "popup_is-opened");
 
-
         form.reset();
     }
 

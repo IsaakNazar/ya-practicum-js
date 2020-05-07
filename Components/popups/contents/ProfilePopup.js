@@ -28,18 +28,18 @@ class ProfilePopup extends BaseComponent {
     }
 
     attachEvents() {
-        // submitting Profile form editing
-        document.forms.profile.addEventListener("submit", this.submitFormProfile);
+        // submitting Profile form
+        $event(document.forms.profile).on("submit", this.submitFormProfile);
 
-        // validation of Profile editing
-        document.forms.profile.elements.name.addEventListener("input", this.validateProfileForm);
-        document.forms.profile.elements.job.addEventListener("input", this.validateProfileForm);
+        // validation of Profile form
+        $event(document.forms.profile.elements.name).on("input", this.validateProfileForm);
+        $event(document.forms.profile.elements.job).on("input", this.validateProfileForm);
     }
 
     // populate Profile form
     populateForm() {
-        document.forms.profile.elements.name.value = $('.user-info__name').textContent;
-        document.forms.profile.elements.job.value = $('.user-info__job').textContent;
+        document.forms.profile.elements.name.value = $(".user-info__name").textContent;
+        document.forms.profile.elements.job.value = $(".user-info__job").textContent;
         this.validateProfileForm();
     }
 
@@ -50,8 +50,8 @@ class ProfilePopup extends BaseComponent {
             return;
         }
 
-        $('.user-info__name').textContent = document.forms.profile.elements.name.value;
-        $('.user-info__job').textContent = document.forms.profile.elements.job.value;
+        $(".user-info__name").textContent = document.forms.profile.elements.name.value;
+        $(".user-info__job").textContent = document.forms.profile.elements.job.value;
 
         closePopup(event, $("#modal-window"), "popup_is-opened")
     }
