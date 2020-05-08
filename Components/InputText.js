@@ -1,5 +1,4 @@
-
-// Custom input form
+// Custom input element, default type='text'
 class InputText extends HTMLElement {
 
     // name attribute of input
@@ -32,12 +31,17 @@ class InputText extends HTMLElement {
 
     // id of error message
     get uid() {
-        return this.getAttribute('uid');
+        const id = this.getAttribute('uid');
+        if (id) {
+            return id;
+        }
+        throw Error("\'uid\' attribute is not defined");
     }
 
     set uid(value) {
         this.setAttribute('uid', value);
     }
+
 
     // error message of the input
     get errorMessage() {
@@ -48,9 +52,7 @@ class InputText extends HTMLElement {
         this.setAttribute('errorMessage', value);
     }
 
-
-    // the type of input will be the value of this attribute, if it is passed,
-    // otherwise type='text'
+    // type of the input element
     get inputType() {
         return this.getAttribute('inputType');
     }
@@ -63,7 +65,7 @@ class InputText extends HTMLElement {
         super();
         const input = document.createElement('input');
         input.type = this.inputType || 'text';
-        input.className = `popup__input ${this.className}`;
+        input.className = `popup__input ${this.className || ''}`;
         input.name = this.nameValue;
         input.placeholder = this.placeHolder;
         this.appendChild(input);
@@ -72,7 +74,7 @@ class InputText extends HTMLElement {
         errorMsg.className = 'popup__input-error';
         errorMsg.id = this.uid;
         errorMsg.setAttribute('aria-live', 'polite');
-        errorMsg.textContent = this.errorMessage;
+        errorMsg.textContent = this.errorMessage || '';
         this.appendChild(errorMsg);
     }
 }

@@ -13,8 +13,9 @@ class Card extends BaseComponent {
     }
 
     remove(event) {
+        const path = getEventPath(event);
         if (event.target.classList.contains("place-card__delete-icon")) {
-            $('.places-list').removeChild(event.path[2]);
+            $('.places-list').removeChild(path[2]);
         }
     }
 

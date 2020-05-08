@@ -4,15 +4,15 @@ class ProfilePopup extends BaseComponent {
         this.content = `<form class="popup__form" name="profile">
                             <input-text placeHolder="Name" 
                                         nameValue="name" 
-                                        uid="error-profile-name"
-                                        errorMessage="">
+                                        uid="error-profile-name">
                             </input-text>
                             <input-text placeHolder="About yourself" 
                                         nameValue="job" 
-                                        uid="error-profile-job"
-                                        errorMessage="">
+                                        uid="error-profile-job">
                             </input-text>
-                            <button class="button popup__button popup__button_text18">Save</button>
+                            <button-submit text="Save" 
+                                           className="popup__button_text18">
+                            </button-submit>
                         </form>`;
         this.popup = new Popup();
     }

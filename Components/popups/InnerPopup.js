@@ -7,7 +7,7 @@ class InnerPopup extends BaseComponent {
 
     get template() {
         return `<div class="popup__content">
-                    <img src="./images/close.svg" 
+                    <img src="./assets/images/close.svg" 
                          alt="close icon" 
                          class="popup__close">
                     <h3 class="popup__title">${this.title}</h3>

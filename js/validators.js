@@ -47,8 +47,9 @@ function enableButton(isValid, selectors, button) {
 
 // close popup when the submit button is triggered
 function closePopup(event, popup, toggleMe) {
+    const path = getEventPath(event);
     if (event.type === "submit") {
-        popup.removeChild(event.path[1]);
+        popup.removeChild(path[1]);
         popup.classList.toggle(toggleMe);
     }
 }

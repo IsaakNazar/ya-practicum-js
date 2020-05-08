@@ -15,7 +15,7 @@ class AddCardPopup extends BaseComponent {
                                         uid="error-card-link"
                                         errorMessage="Here should be a link">
                             </input-text>
-                            <button class="button popup__button">+</button>
+                            <button-submit text="+"></button-submit>
                         </form>`;
         this.popup = new Popup();
     }

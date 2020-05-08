@@ -1,4 +1,4 @@
-class ImageHelper extends BaseComponent {
+class ImageHandler extends BaseComponent {
     constructor() {
         super();
         this.popup = new Popup();
