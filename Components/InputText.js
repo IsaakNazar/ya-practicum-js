@@ -1,5 +1,23 @@
+
 // Custom input element, default type='text'
 class InputText extends HTMLElement {
+
+    constructor() {
+        super();
+        const input = document.createElement('input');
+        input.type = this.inputType || 'text';
+        input.className = `popup__input ${this.className || ''}`;
+        input.name = this.nameValue;
+        input.placeholder = this.placeHolder;
+        this.appendChild(input);
+
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'popup__input-error';
+        errorMsg.id = this.uid;
+        errorMsg.setAttribute('aria-live', 'polite');
+        errorMsg.textContent = this.errorMessage || '';
+        this.appendChild(errorMsg);
+    }
 
     // name attribute of input
     get nameValue() {
@@ -35,7 +53,7 @@ class InputText extends HTMLElement {
         if (id) {
             return id;
         }
-        throw Error("\'uid\' attribute is not defined");
+        throw Error("\'uid\' attribute is not provided");
     }
 
     set uid(value) {
@@ -61,22 +79,6 @@ class InputText extends HTMLElement {
         this.setAttribute('inputType', value);
     }
 
-    constructor() {
-        super();
-        const input = document.createElement('input');
-        input.type = this.inputType || 'text';
-        input.className = `popup__input ${this.className || ''}`;
-        input.name = this.nameValue;
-        input.placeholder = this.placeHolder;
-        this.appendChild(input);
-
-        const errorMsg = document.createElement('div');
-        errorMsg.className = 'popup__input-error';
-        errorMsg.id = this.uid;
-        errorMsg.setAttribute('aria-live', 'polite');
-        errorMsg.textContent = this.errorMessage || '';
-        this.appendChild(errorMsg);
-    }
 }
 
 // The element is called input-text, its class object is InputText
