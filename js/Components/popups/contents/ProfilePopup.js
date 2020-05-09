@@ -61,12 +61,12 @@ class ProfilePopup extends BaseComponent {
 
         const formProfileName = document.forms.profile.elements.name;
         const formErrorProfileName = $("#error-profile-name");
-        isValid = validateForm(formErrorProfileName, formProfileName, isValid);
+        isValid = validateForm(formErrorProfileName, formProfileName, isValid, 2, 30);
 
 
         const formProfileJob = document.forms.profile.elements.job;
         const formErrorProfileJob = $("#error-profile-job");
-        isValid = validateForm(formErrorProfileJob, formProfileJob, isValid);
+        isValid = validateForm(formErrorProfileJob, formProfileJob, isValid, 2, 30);
 
         enableButton(isValid, $(".popup .popup__button"), "popup__button_enable");
     }

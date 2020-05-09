@@ -1,6 +1,6 @@
 // checks a given form, based on value length
-function validateForm(errorMsg, elementValue, isValid) {
-    switch (validateStrLength(elementValue.value, 2, 30)) {
+function validateForm(errorMsg, elementValue, isValid, min, max) {
+    switch (validateStrLength(elementValue.value, min, max)) {
         case 0:
             errorMsg.textContent = "Required field";
             isValid = false;
@@ -9,7 +9,7 @@ function validateForm(errorMsg, elementValue, isValid) {
             errorMsg.textContent = "";
             break;
         case 2:
-            errorMsg.textContent = "Must be between 2 to 30 characters";
+            errorMsg.textContent = `Must be between ${min} to ${max} characters`;
             isValid = false;
             break;
     }

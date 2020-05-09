@@ -55,7 +55,7 @@ class AddCardPopup extends BaseComponent {
 
         const formNewName = document.forms.new.elements.name;
         const formErrorCardName = $("#error-card-name");
-        isValid = validateForm(formErrorCardName, formNewName, isValid);
+        isValid = validateForm(formErrorCardName, formNewName, isValid, 2, 30);
 
         const formNewLink = document.forms.new.elements.link;
         const formErrorCardLink = $("#error-card-link");
