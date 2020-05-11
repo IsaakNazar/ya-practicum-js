@@ -45,11 +45,3 @@ function enableButton(isValid, selectors, button) {
     return isValid ? selectors.classList.add(button) : selectors.classList.remove(button);
 }
 
-// close popup when the submit button is triggered
-function closePopup(event, popup, toggleMe) {
-    const path = getEventPath(event);
-    if (event.type === "submit") {
-        popup.removeChild(path[1]);
-        popup.classList.toggle(toggleMe);
-    }
-}

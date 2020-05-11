@@ -48,6 +48,7 @@ class InputText extends HTMLElement {
     }
 
     // id of error message
+    // if uid is not provided, it throw an error
     get uid() {
         const id = this.getAttribute('uid');
         if (id) {
@@ -83,3 +84,9 @@ class InputText extends HTMLElement {
 
 // The element is called input-text, its class object is InputText
 window.customElements.define('input-text', InputText);
+
+// some attributes have default values, but others, do not, like
+// uid or nameValue. In case of uid, it throws an error if there's no value provided.
+// An error should be thrown on nameValue attribute too, but I
+// decided to implement it only on uid attribute, just for demonstration purposes.
+// ideally an error should be thrown on every attributes, which weren't provided
