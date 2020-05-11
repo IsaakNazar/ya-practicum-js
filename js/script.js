@@ -1,3 +1,4 @@
+// to make sure a web page has completely loaded all content (including images, script files, CSS files, etc.).
 window.onload = () => {
 
     const cardList = new CardList(initialCards);
